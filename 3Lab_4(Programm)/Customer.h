@@ -19,8 +19,12 @@ public:
 
     const string getFirstName(); // Метод получения имени сотрудника
     const string getLastName(); // Метод получения имени сотрудника
-    const string getPerson();
-    void setPerson();
+    const string getPhone_number();
+
+    void setFirstName(string first_name);
+    void setLastName(string last_name);
+    void setPhone_number(string phone_number);
+
     void outputCustomer(); // Метод вывода информации о покупателе
 };
 

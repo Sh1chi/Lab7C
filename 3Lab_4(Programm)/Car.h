@@ -26,15 +26,15 @@ public:
     const string getCountry();
     const int getYear();
     const int getPrice(); // Метод получения цены авто
-    const string getcondition();
-    const int getquantity();
+    const string getCondition();
+    const int getQuantity();
 
-    void getBrand_model(); // Метод получения марки и модели авто
-    void getCountry();
-    void getYear();
-    void getPrice(); // Метод получения цены авто
-    void condition();
-    void quantity();
+    void setBrand_model(string brand_model);
+    void setCountry(string country);
+    void setYear(int year);
+    void setPrice(int price); // Метод получения цены авто
+    void setCondition(string condition);
+    void setQuantity(int quantity);
 
     void outputCar(); // Метод вывода информации об автомобиле
 };

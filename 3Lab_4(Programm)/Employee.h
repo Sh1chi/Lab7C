@@ -20,7 +20,11 @@ public:
     const string getFirstName(); // Метод получения имени сотрудника
     const string getLastName(); // Метод получения имени сотрудника
     const int getSalary();
-    void setSalary();
+
+    void setFirstName(string first_name);
+    void setLastName(string last_name);
+    void setSalary(int salary);
+
     void outputEmployee(); // Метод вывода информации о сотруднике
 };
 

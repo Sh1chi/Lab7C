@@ -130,12 +130,14 @@
     <ClCompile Include="3Lab_4(Programm).cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Customer.cpp" />
+    <ClCompile Include="Dealership.cpp" />
     <ClCompile Include="Employee.cpp" />
     <ClCompile Include="Person.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Car.h" />
     <ClInclude Include="Customer.h" />
+    <ClInclude Include="Dealership.h" />
     <ClInclude Include="Employee.h" />
     <ClInclude Include="Person.h" />
   </ItemGroup>

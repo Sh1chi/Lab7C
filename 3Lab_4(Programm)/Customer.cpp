@@ -1,7 +1,5 @@
 #include "Customer.h"
-#include <string>
 
-using namespace std;
 
 // Реализация методов класса Customer
 const string Customer::getFirstName() {

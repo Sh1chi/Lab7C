@@ -4,9 +4,13 @@
 #include <iostream>
 #include "Employee.h"
 #include "Car.h"
+#include "Func.h"
 
 #define MAX_EMPLOYEES 100
 #define MAX_CARS 100
+
+extern int numEmployees, numCustomers, numCars;
+
 
 // Класс автосалона
 class Dealership {
@@ -39,6 +43,5 @@ public:
     void setDealership_name(string dealership_name);
     void setAddres(string addres);
 
-    void outputDealership(Employee* employeeArray, int num_employees, Car* carArray, int num_cars); // Функция вывода информации об автосалоне
 };
 

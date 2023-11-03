@@ -4,6 +4,8 @@
 #include <iostream>
 
 
+using namespace std;
+
 // Класс покупателя
 class Customer {
     Person person;         // Информация о покупателе

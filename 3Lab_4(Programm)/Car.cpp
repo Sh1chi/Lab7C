@@ -1,7 +1,7 @@
 #include "Car.h"
-#include <string>
 
-using namespace std;
+
+
 
 // Реализация методов класса Car
 

@@ -2,6 +2,10 @@
 
 int Deal::ID = 0;
 
+const int Deal::getDeal_number() {
+    return deal_number;
+}
+
 const string Deal::getDate(){
     return date;
 }
@@ -14,6 +18,10 @@ int Deal::getID() {
     return ID;
 }
 
+void Deal::setDeal_number(int deal_number) {
+    this->deal_number = deal_number;
+}
+
 void Deal::setDate(string date){
     this->date = date;
 }
@@ -23,11 +31,12 @@ void Deal::setTransaction_amount(int transaction_amount){
 }
 
 void Deal::outputDeal() {
-    cout << " -- Сделка #" << deal_number << ":" << endl;
-    cout << "Дата сделки: " << date << endl;
-    cout << "Продавец: " << seller.getFirstName() << " " << seller.getLastName() << endl;
-    cout << "Покупатель: " << buyer.getFirstName() << " " << buyer.getLastName() << endl;
-    cout << "Автомобиль: " << car_sold.getBrand_model() << endl;
-    cout << "Сумма сделки: " << transaction_amount << endl;
-    cout << "Автосалон: " << dealership_name.getDealership_name() << endl;
+    for (int i = 0; i < numDeals; ++i) {
+        cout << " -- Сделка #" << deal_number << ":" << endl;
+        cout << "Дата сделки: " << date << endl;
+        cout << "Продавец: " << seller.getFirstName() << " " << seller.getLastName() << endl;
+        cout << "Покупатель: " << buyer.getFirstName() << " " << buyer.getLastName() << endl;
+        cout << "Автомобиль: " << car_sold.getBrand_model() << endl;
+        cout << "Сумма сделки: " << transaction_amount << endl;
+    }
 }

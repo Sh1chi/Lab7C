@@ -1,6 +1,7 @@
 #pragma once
 #include "Employee.h"
 #include "Customer.h"
+#include "Car.h"
 #include "Dealership.h"
 
 #include <string>
@@ -8,7 +9,7 @@
 
 using namespace std;
 
-extern int numDeal;
+extern int numEmployees, numCars, numDeals;
 
 // Класс сделки
 class Deal {
@@ -19,13 +20,12 @@ class Deal {
     Customer buyer;          // Покупатель
     Car car_sold;            // Проданный автомобиль
     int transaction_amount;  // Сумма сделки
-    Dealership dealership_name;   // Автосалон
 
 public:
     Deal() : deal_number(0), date(""), transaction_amount(0) {}
 
-    Deal(int deal_number, string date, Employee seller, Customer buyer, Car car_sold, int transaction_amount, Dealership dealership_name)
-        : deal_number(deal_number), date(date), seller(seller), buyer(buyer), car_sold(car_sold), transaction_amount(transaction_amount), dealership_name(dealership_name) {}
+    Deal(int deal_number, string date, Employee seller, Customer buyer, Car car_sold, int transaction_amount)
+        : deal_number(deal_number), date(date), seller(seller), buyer(buyer), car_sold(car_sold), transaction_amount(transaction_amount) {}
 
     ~Deal() {}
 

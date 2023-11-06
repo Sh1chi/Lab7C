@@ -4,12 +4,11 @@
 #include <iostream>
 #include "Employee.h"
 #include "Car.h"
-#include "Func.h"
 
 #define MAX_EMPLOYEES 100
 #define MAX_CARS 100
 
-extern int numEmployees, numCustomers, numCars;
+extern int numEmployees, numCars, numDeal;
 
 
 // Класс автосалона
@@ -39,9 +38,18 @@ public:
 
     const string getDealership_name(); // Метод получения названия автосалона
     const string getAddres();
+    Employee* getEmployees();
+    Car* getCars();
 
     void setDealership_name(string dealership_name);
     void setAddres(string addres);
-
+    void setEmployees(Employee* employees);
+    void setCars(Car* cars);
+    
+    void outAllInfoDealership();
+    void outEmployeeDealership();
+    void outCarDealership();
+    void outEmployeesChoice();
+    void outCarsChoice();
 };
 

@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <iostream>
-#include <windows.h>
 
 #include "Employee.h"
 #include "Car.h"
@@ -20,7 +19,9 @@ void inputCar(string* brand_model, string* country, int* year, int* price, strin
 
 Dealership inputDealership();
 
-Deal* inputDeal(Dealership dealership);
+Deal* inputDeal(Dealership dealership, string carData[][3]);
+
+void outputProfitDealership(string carData[][3]);
 
 void outputDeals(Deal* deals);
 
@@ -31,7 +32,5 @@ void addEmployeesToDealership(Dealership& dealership);
 void removeCarFromDealership(Dealership& dealership);
 
 
-
 void removeEmployeeFromDealership(Dealership& dealership);
 
-void SetConsoleEncoding();

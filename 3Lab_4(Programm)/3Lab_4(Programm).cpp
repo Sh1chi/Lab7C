@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <conio.h>
+#include <windows.h>
 
 using namespace std;
 
@@ -15,14 +16,19 @@ using namespace std;
 #define MAX_CARS 100
 #define MAX_DEALS 100
 
+
+
 int numEmployees, numCars, numDeals;
 
 int main() {
-    SetConsoleEncoding();
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
     bool exit_program = false;
     int choice;
     Dealership dealership;
     Deal* deals = nullptr;
+    string carData[MAX_DEALS][3]; // Двумерный массив для хранения марки и цены автомобилей
+
 
 
     cout << "        -- Реализация АТД на языке C++ --" << endl;
@@ -40,63 +46,124 @@ int main() {
         cout << "8 - Вывести сделку" << endl;
         cout << "9 - Удалить сотрудника" << endl;
         cout << "10 - Удалить авто" << endl;
+        cout << "11 - Доход автосалона" << endl;
         cout << "0 - Выход..." << endl;
+        cout << endl;
 
-        cin >> choice;
+        cout << "Выберите действие: ";
+        while (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(100, '\n');
+            cout << "Ошибка: 'Некорректный ввод' !\n\n";
+            cout << "Выберите действие: ";
+        }
+        cin.ignore();
 
         switch (choice) {
         case 1:
-            dealership = inputDealership();
-            Sleep(1000);
+            system("cls");
+            try {
+                dealership = inputDealership();
+            }
+            catch (const exception& error) {
+                cout << error.what() << endl;
+            }
             break;
         case 2:
-            dealership.outEmployeeDealership();
-            Sleep(1000);
+            system("cls");
+            try {
+               dealership.outEmployeeDealership();
+            }
+            catch (const exception& error) {
+                cout << error.what() << endl;
+            }
             break;
         case 3:
-            dealership.outCarDealership();
-            Sleep(1000);
+            system("cls");
+            try {
+               dealership.outCarDealership();
+            }
+            catch (const exception& error) {
+                cout << error.what() << endl;
+            }
             break;
         case 4:
-            dealership.outAllInfoDealership();
-            Sleep(1000);
+            system("cls");
+            try {
+                dealership.outAllInfoDealership();
+            }
+            catch (const exception &error) {
+                cout << "Ошибка: '"<< error.what() <<"' !" << endl;
+            }
             break;
         case 5:
-            deals = inputDeal(dealership);
-            Sleep(1500);
+            system("cls");
+            try {
+               deals = inputDeal(dealership, carData);
+            }
+            catch (const exception& error) {
+                cout << "Ошибка: '" << error.what() << "' !" << endl;
+            }
             break;
         case 6:
-            addEmployeesToDealership(dealership);
-            Sleep(1000);
+            system("cls");
+            try {
+                addEmployeesToDealership(dealership);
+            }
+            catch (const exception& error) {
+                cout << "Ошибка: '" << error.what() << "' !" << endl;
+            }
             break;
         case 7:
-            addCarsToDealership(dealership);
-            Sleep(1000);
+            system("cls");
+            try {
+                addCarsToDealership(dealership);
+            }
+            catch (const exception& error) {
+                cout << "Ошибка: '" << error.what() << "' !" << endl;
+            }
             break;
         case 8:
-            outputDeals(deals);
-            Sleep(1500);
+            system("cls");
+            try {
+                outputDeals(deals);
+            }
+            catch (const exception& error) {
+                cout << error.what() << endl;
+            }
             break;
         case 9:
-            removeEmployeeFromDealership(dealership);
-            Sleep(1000);
+            system("cls");
+            try {
+                removeEmployeeFromDealership(dealership);
+            }
+            catch (const exception& error){
+                cout << "Ошибка: '" << error.what() << "' !" << endl;
+            }
             break;
         case 10:
-            removeCarFromDealership(dealership);
-            Sleep(1000);
+            system("cls");
+            try {
+                removeCarFromDealership(dealership);
+            }
+            catch (const exception& error) {
+                cout << "Ошибка: '" << error.what() << "' !" << endl;
+            }
+            break;
+        case 11:
+            system("cls");
+            outputProfitDealership(carData);
             break;
         case 0:
             cout << "Осуществляется выход..." << endl;
-            Sleep(1000);
             exit_program = true;
             break;
         default:
-            cout << "Неверная команда..." << endl;
-            Sleep(1000);
+            cout << "Ошибка: 'Неверная команда' !" << endl;
             break;
         }
         if (!exit_program) {
-            cout << "Нажмите любую клавишу для продолжения...";
+            cout << "\nНажмите любую клавишу для продолжения...";
             _getch(); // Ожидание нажатия клавиши
             system("cls"); // Очистка экрана
         }

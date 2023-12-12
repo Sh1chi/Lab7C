@@ -8,7 +8,7 @@
 #define MAX_EMPLOYEES 100
 #define MAX_CARS 100
 
-extern int numEmployees, numCars, numDeal;
+extern int numEmployees, numCars, numDeals;
 
 
 // Класс автосалона

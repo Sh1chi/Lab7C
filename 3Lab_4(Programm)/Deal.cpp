@@ -31,12 +31,10 @@ void Deal::setTransaction_amount(int transaction_amount){
 }
 
 void Deal::outputDeal() {
-    for (int i = 0; i < numDeals; ++i) {
-        cout << " -- Сделка #" << deal_number << ":" << endl;
-        cout << "Дата сделки: " << date << endl;
-        cout << "Продавец: " << seller.getFirstName() << " " << seller.getLastName() << endl;
-        cout << "Покупатель: " << buyer.getFirstName() << " " << buyer.getLastName() << endl;
-        cout << "Автомобиль: " << car_sold.getBrand_model() << endl;
-        cout << "Сумма сделки: " << transaction_amount << endl;
-    }
+    cout << " -- Сделка #" << deal_number << ":" << endl;
+    cout << "Дата сделки: " << date << endl;
+    cout << "Продавец: " << seller.getFirstName() << " " << seller.getLastName() << endl;
+    cout << "Покупатель: " << buyer.getFirstName() << " " << buyer.getLastName() << endl;
+    cout << "Автомобиль: " << car_sold.getBrand_model() << endl;
+    cout << "Сумма сделки: " << transaction_amount << endl;
 }

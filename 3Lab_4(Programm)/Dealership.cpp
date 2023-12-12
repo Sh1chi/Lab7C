@@ -45,50 +45,51 @@ void Dealership::setCars(Car* cars) {
 
 void Dealership::outAllInfoDealership() {
     cout << endl;
-    if (!dealership_name.empty() || !address.empty()) {
-        cout << "    __-- Автосалон " << dealership_name << " --__" << endl;
-        cout << "по адресу: " << address << endl;
-        outEmployeeDealership();
-        outCarDealership();
+
+    if (dealership_name.empty() || address.empty()) {
+        throw exception("Информация об автосалоне недоступна, так как отсутствует название или адрес");
     }
-    else {
-        cout << "Информация об автосалоне недоступна, так как отсутствует название или адрес." << endl;
-    }
+
+    system("cls");
+    cout << "    __-- Автосалон " << dealership_name << " --__" << endl;
+    cout << "по адресу: " << address << endl;
+    outEmployeeDealership();
+    outCarDealership();
 }
 
 void Dealership::outEmployeeDealership() {
     if (numEmployees == 0) {
         cout << "    __-- Сотрудники автосалона --__" << endl;
-        cout << "В дилерском центре отсутствуют сотрудники." << endl;
+        throw exception("В дилерском центре отсутствуют сотрудники.");
     }
-    else {
-        cout << "    __-- Сотрудники автосалона " << dealership_name << " --__" << endl;
-        for(int i = 0; i < numEmployees; ++i) {
-            cout << endl;
-            cout << "Сотрудник #" << i + 1 << ":" << endl;
-            employees[i].outputEmployee();
-        }
+    cout << "    __-- Сотрудники автосалона " << dealership_name << " --__" << endl;
+    for(int i = 0; i < numEmployees; ++i) {
         cout << endl;
+        cout << "Сотрудник #" << i + 1 << ":" << endl;
+        employees[i].outputEmployee();
     }
+    cout << endl;
 }
 
 void Dealership::outCarDealership() {
     if (numCars == 0) {
         cout << "    __-- Автомобили автосалона --__" << endl;
-        cout << "В дилерском центре отсутствуют автомобили." << endl;
+        throw exception("В дилерском центре отсутствуют автомобили.");
     }
-    else {
-        cout << "    __-- Автомобили автосалона " << dealership_name << " --__" << endl;
-        for (int i = 0; i < numCars; ++i) {
-            cout << endl;
-            cout << "Автомобиль #" << i + 1 << ":" << endl;
-            cars[i].outputCar();
-        }
+
+    cout << "    __-- Автомобили автосалона " << dealership_name << " --__" << endl;
+    for (int i = 0; i < numCars; ++i) {
+        cout << endl;
+        cout << "Автомобиль #" << i + 1 << ":" << endl;
+        cars[i].outputCar();
     }
     cout << endl;
 }
 
 void Dealership::outEmployeesChoice() {
+    if (numEmployees == 0) {
+        throw exception("Список продавцов пуст");
+    }
     std::cout << "Список продавцов:" << std::endl;
     for (int i = 0; i < numEmployees; i++) {
         cout << (i + 1) << ") " << employees[i].getFirstName() << " " << employees[i].getLastName() << std::endl;
@@ -96,6 +97,9 @@ void Dealership::outEmployeesChoice() {
 }
 
 void Dealership::outCarsChoice() {
+    if (numEmployees == 0) {
+        throw exception("Список автомобилей пуст");
+    }
     std::cout << "Автомобили в наличии:" << std::endl;
     for (int i = 0; i < numCars; i++) {
         cout << (i + 1) << ") " << cars[i].getBrand_model() << std::endl;

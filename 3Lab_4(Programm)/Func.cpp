@@ -45,17 +45,34 @@ void inputCar(string* brand_model, string* country, int* year, int* price, strin
 Dealership inputDealership() {
     cout << "    __-- Создание автосалона --__" << endl;
 
-    cin.ignore();
-    // Ввод данных о автосалоне
     string dealership_name, dealership_address;
-    cout << "Введите название автосалона: ";
-    getline(cin, dealership_name);
-    cout << "Введите адрес автосалона: ";
-    getline(cin, dealership_address);
+    while (true) {
+        // Ввод данных о автосалоне
+        cout << "Введите название автосалона: ";
+        getline(cin, dealership_name);
+        cout << "Введите адрес автосалона: ";
+        getline(cin, dealership_address);
+        if (dealership_name.empty() || dealership_address.empty()) {
+            cout << "Ошибка: 'Некорректный ввод' !\n\n";
+        }
+        else
+            break;
+    }
 
     // Ввод количества сотрудников и создание массива сотрудников
     cout << "Введите количество сотрудников: ";
     cin >> numEmployees;
+
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        throw invalid_argument("Ошибка: 'Некорректный ввод' !");
+    }
+
+    if (numEmployees <= 0) {
+        throw exception("Ошибка: 'Недопустимое количество' !");
+    }
 
     Employee* employeeArray = new Employee[numEmployees]; // Выделение памяти для массива сотрудников
 
@@ -73,6 +90,17 @@ Dealership inputDealership() {
     // Ввод количества автомобилей и создание массива автомобилей
     cout << "Введите количество автомобилей: ";
     cin >> numCars;
+
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        throw invalid_argument("Ошибка: 'Некорректный ввод' !");
+    }
+
+    if (numCars <= 0) {
+        throw exception("Ошибка: 'Недопустимое количество' !");
+    }
 
     Car* carArray = new Car[numCars]; // Выделение памяти для массива автомобилей
 
@@ -96,11 +124,24 @@ Dealership inputDealership() {
     return dealership;
 }
 
-Deal* inputDeal(Dealership dealership){
+Deal* inputDeal(Dealership dealership, string carData[][3]){
+    if (dealership.getDealership_name().empty() || dealership.getAddres().empty()) {
+        throw exception("Отсутствует автосалон");
+    }
     // Ввод количества сделок и создание массива сделок
     cout << endl;
     cout << "Введите количество сделок: ";
     cin >> numDeals;
+
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        throw invalid_argument("Ошибка: 'Некорректный ввод' !");
+    }
+    if (numDeals <= 0){
+        throw exception("Ошибка: 'Недопустимое количество' !");
+    }
     Deal* dealArray = new Deal[numDeals];
 
     int deal_number;
@@ -128,7 +169,7 @@ Deal* inputDeal(Dealership dealership){
         dealership.outEmployeesChoice();
         int seller_choice;
         cin >> seller_choice;
-
+        seller_choice -= 1;
 
         Car* car_sold = dealership.getCars();
         // Выведем список доступных автомобилей и попросим выбрать
@@ -136,10 +177,17 @@ Deal* inputDeal(Dealership dealership){
         dealership.outCarsChoice();
         int car_choice;
         cin >> car_choice;
+        car_choice -= 1;
 
-        cout << "Сумма сделки:" << endl;
+        cout << "Сумма сделки: ";
         int transaction_amount;
         cin >> transaction_amount;
+
+
+        // Добавление марки авто и его цены в массив carData
+        carData[i][0] = to_string(deal_number);
+        carData[i][1] = car_sold[car_choice].getBrand_model();
+        carData[i][2] = to_string(transaction_amount * 0.05);
 
         // Создание объекта сделки и сохранение его в массиве
         dealArray[i] = Deal(deal_number, deal_date, seller[seller_choice], buyer, car_sold[car_choice], transaction_amount);
@@ -149,7 +197,25 @@ Deal* inputDeal(Dealership dealership){
     return dealArray;
 }
 
+void outputProfitDealership(string carData[][3]) {
+    system("cls");
+    cout << "   __--Прибыль автосалона--__\n\n";
+    int total_profit = 0;
+    for (int i = 0; i < numDeals; ++i) {
+        cout << "Сделка #" << carData[i][0] << endl;
+        cout << "Марка: " << carData[i][1] << endl;
+        cout << "Прибыль: " << carData[i][2] << endl;
+        total_profit += stoi(carData[i][2]);
+        cout << endl;
+    }
+    cout << "Общая прибыль автосалона: " << total_profit;
+    cout << endl;
+}
+
 void outputDeals(Deal* deals) {
+    if (numDeals < 1) {
+        throw exception("История сделок пуста...");
+    }
     for (int i = 0; i < numDeals; ++i) {
         deals[i].outputDeal();
         cout << endl;
@@ -159,12 +225,20 @@ void outputDeals(Deal* deals) {
 
 void addCarsToDealership(Dealership& dealership)
 {
-    cout << "\n\t~~Добавление новых автомобилей в автосалон~~" << endl;
+    cout << "   __--Добавление новых автомобилей в автосалон--__" << endl;
 
-    cout << "-------------------------------------------" << endl;
     int numNewCars;
     cout << "Введите количество новых автомобилей: ";
     cin >> numNewCars;
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        throw invalid_argument("Ошибка: 'Некорректный ввод' !");
+    }
+    if (numNewCars <= 0) {
+        throw exception("Ошибка: 'Недопустимое количество' !");
+    }
 
     int newTotalCars = numCars + numNewCars;
 
@@ -205,12 +279,20 @@ void addCarsToDealership(Dealership& dealership)
 
 void addEmployeesToDealership(Dealership& dealership)
 {
-    cout << "\n\t~~Добавление новых сотрудников в автосалон~~" << endl;
+    cout << "   __--Добавление новых сотрудников в автосалон--__" << endl;
 
-    cout << "-------------------------------------------" << endl;
     int numNewEmployees;
     cout << "Введите количество новых сотрудников: ";
     cin >> numNewEmployees;
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        throw invalid_argument("Ошибка: 'Некорректный ввод' !");
+    }
+    if (numNewEmployees <= 0) {
+        throw exception("Ошибка: 'Недопустимое количество' !");
+    }
 
     int newTotalEmployees = numEmployees + numNewEmployees;
 
@@ -252,22 +334,30 @@ void addEmployeesToDealership(Dealership& dealership)
 // Функция удаления автомобиля из автосалона
 void removeCarFromDealership(Dealership& dealership){
 
+    cout << "   __--Удаление автомобилей--__" << endl;
+
     dealership.outCarsChoice();
 
-    int carIndex;
+    int car_choice;
     cout << "Введите номер автомобиля, который вы хотите удалить: ";
-    cin >> carIndex;
+    cin >> car_choice;
 
-    if (carIndex < 0 || carIndex >= numCars) {
-        cout << "Недопустимый номер автомобиля. Удаление не выполнено." << endl;
-        return;
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        throw invalid_argument("Ошибка: 'Некорректный ввод' !");
+    }
+
+    if (car_choice < 0 || car_choice >= numCars) {
+        throw exception("Ошибка: 'Недопустимый номер автомобиля' ! Удаление не выполнено");
     }
 
     // Получаем указатель на массив автомобилей в автосалоне
     Car* cars = dealership.getCars();
 
     // Удаляем выбранный автомобиль путем сдвига оставшихся элементов
-    for (int i = carIndex - 1; i < numCars; ++i) {
+    for (int i = car_choice - 1; i < numCars; ++i) {
         cars[i] = cars[i + 1];
     }
 
@@ -280,22 +370,30 @@ void removeCarFromDealership(Dealership& dealership){
 // Функция удаления сотрудника из автосалона
 void removeEmployeeFromDealership(Dealership& dealership){
 
+    cout << "   __--Удаление сотрудников--__" << endl;
+
     dealership.outEmployeesChoice();
 
-    int employeeIndex;
+    int employee_choice;
     cout << "Введите номер сотрудника, которого вы хотите удалить: ";
-    cin >> employeeIndex;
+    cin >> employee_choice;
 
-    if (employeeIndex < 0 || employeeIndex >= numEmployees) {
-        cout << "Недопустимый номер сотрудника. Удаление не выполнено." << endl;
-        return;
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        throw invalid_argument("Ошибка: 'Некорректный ввод' !");
+    }
+
+    if (employee_choice < 0 || employee_choice >= numEmployees) {
+        throw exception("Ошибка: 'Недопустимый номер сотрудника' ! Удаление не выполнено");
     }
 
     // Получаем указатель на массив сотрудников в автосалоне
     Employee* employees = dealership.getEmployees();
 
     // Удаляем выбранного сотрудника путем сдвига оставшихся элементов
-    for (int i = employeeIndex - 1; i < numEmployees; ++i) {
+    for (int i = employee_choice - 1; i < numEmployees; ++i) {
         employees[i] = employees[i + 1];
     }
 
@@ -305,8 +403,3 @@ void removeEmployeeFromDealership(Dealership& dealership){
     cout << "Сотрудник удален из автосалона." << endl;
 }
 
-// Функция для установки кодировки для консоли (для поддержки кириллицы)
-void SetConsoleEncoding() {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-}

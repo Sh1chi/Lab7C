@@ -132,18 +132,22 @@
     <ClCompile Include="Customer.cpp" />
     <ClCompile Include="Deal.cpp" />
     <ClCompile Include="Dealership.cpp" />
+    <ClCompile Include="DealershipWebsite.cpp" />
     <ClCompile Include="Employee.cpp" />
     <ClCompile Include="Func.cpp" />
     <ClCompile Include="Person.cpp" />
+    <ClCompile Include="ReviewManagement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Car.h" />
     <ClInclude Include="Customer.h" />
     <ClInclude Include="Deal.h" />
     <ClInclude Include="Dealership.h" />
+    <ClInclude Include="DealershipWebsite.h" />
     <ClInclude Include="Employee.h" />
     <ClInclude Include="Func.h" />
     <ClInclude Include="Person.h" />
+    <ClInclude Include="ReviewManagement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

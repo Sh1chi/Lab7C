@@ -115,13 +115,32 @@ Dealership inputDealership() {
         cout << endl;
     }
 
-    Dealership dealership(dealership_name, dealership_address, carArray, numCars, employeeArray, numEmployees);
+    Dealership dealership(dealership_name, dealership_address, carArray, employeeArray);
 
     // Освобождение выделенной памяти
     delete[] employeeArray;
     delete[] carArray;
 
     return dealership;
+}
+
+DealershipWebsite inputDealershipWebsite(Dealership& dealership) {
+    cout << "    __-- Создание Website автосалона --__" << endl;
+
+    string contact_email, contact_phone_number, website_address;
+    // Получение данных о контакте и веб-адресе из ввода или других источников
+    cout << "Введите веб-адрес сайта автосалона: ";
+    cin >> website_address;
+    cout << "Введите контактную электронную почту: ";
+    cin >> contact_email;
+    cout << "Введите контактный номер телефона: ";
+    cin >> contact_phone_number;
+
+    // Создание объекта DealershipWebsite
+    DealershipWebsite website(dealership.getDealership_name(), dealership.getAddres(), dealership.getCars(), dealership.getEmployees(),
+        contact_email, contact_phone_number, website_address);
+
+    return website;
 }
 
 Deal* inputDeal(Dealership dealership, string carData[][3]){
@@ -223,7 +242,7 @@ void outputDeals(Deal* deals) {
 }
 
 
-void addCarsToDealership(Dealership& dealership)
+void addCarsToDealership(Dealership& dealership, DealershipWebsite& website)
 {
     cout << "   __--Добавление новых автомобилей в автосалон--__" << endl;
 
@@ -273,11 +292,12 @@ void addCarsToDealership(Dealership& dealership)
 
     // Обновляем массив автомобилей автосалона на новый временный массив
     dealership.setCars(tempCars);
+    website.setCars(tempCars);
 
     delete[] tempCars;
 }
 
-void addEmployeesToDealership(Dealership& dealership)
+void addEmployeesToDealership(Dealership& dealership, DealershipWebsite& website)
 {
     cout << "   __--Добавление новых сотрудников в автосалон--__" << endl;
 
@@ -327,12 +347,13 @@ void addEmployeesToDealership(Dealership& dealership)
 
     // Обновляем массив сотрудников автосалона на новый временный массив
     dealership.setEmployees(tempEmployees);
+    website.setEmployees(tempEmployees);
 
     delete[] tempEmployees;
 }
 
 // Функция удаления автомобиля из автосалона
-void removeCarFromDealership(Dealership& dealership){
+void removeCarFromDealership(Dealership& dealership, DealershipWebsite& website){
 
     cout << "   __--Удаление автомобилей--__" << endl;
 
@@ -361,6 +382,14 @@ void removeCarFromDealership(Dealership& dealership){
         cars[i] = cars[i + 1];
     }
 
+    // Получаем указатель на массив автомобилей в автосалоне
+    cars = website.getCars();
+
+    // Удаляем выбранный автомобиль путем сдвига оставшихся элементов
+    for (int i = car_choice - 1; i < numCars; ++i) {
+        cars[i] = cars[i + 1];
+    }
+
     // Уменьшаем общее количество автомобилей в автосалоне
     numCars--;
 
@@ -368,7 +397,7 @@ void removeCarFromDealership(Dealership& dealership){
 }
 
 // Функция удаления сотрудника из автосалона
-void removeEmployeeFromDealership(Dealership& dealership){
+void removeEmployeeFromDealership(Dealership& dealership, DealershipWebsite& website){
 
     cout << "   __--Удаление сотрудников--__" << endl;
 
@@ -397,9 +426,292 @@ void removeEmployeeFromDealership(Dealership& dealership){
         employees[i] = employees[i + 1];
     }
 
+    // Получаем указатель на массив сотрудников в автосалоне
+    employees = website.getEmployees();
+
+    // Удаляем выбранного сотрудника путем сдвига оставшихся элементов
+    for (int i = employee_choice - 1; i < numEmployees; ++i) {
+        employees[i] = employees[i + 1];
+    }
+
     // Уменьшаем общее количество сотрудников в автосалоне
     numEmployees--;
 
     cout << "Сотрудник удален из автосалона." << endl;
 }
+
+void demonstrateVirtualFunction(Dealership& dealership, DealershipWebsite& website) {
+
+    Dealership* ptr_dealership = &website;
+
+    // Вызов виртуальной функции через не-виртуальную функцию базового класса
+    ptr_dealership->displayInfo();
+
+    // Создание динамических объектов
+    Dealership* dynamic_dealership = new Dealership();
+
+    // Присвоение указателя на объект производного класса базовому классу
+    Dealership* dynamic_ptr = &website;
+
+    // Вызов виртуальной функции через динамический объект базового класса
+    dynamic_ptr->displayInfo();
+
+    // Освобождение выделенной памяти
+    delete dynamic_dealership;
+}
+
+void leaveReviewAndRating(DealershipWebsite& website) {
+    if (!website.getContactEmail().empty()) { // Проверка на наличие контактной почты
+        string userReview;
+        cout << "Оставьте ваш отзыв: ";
+        getline(cin, userReview);
+        website.addReview(userReview);
+
+        int userRating;
+        cout << "Поставьте оценку (от 1 до 5): ";
+        cin >> userRating;
+
+        // Обновление общего рейтинга
+        double totalRating = website.getRating() * website.getReviews().size(); // Общая сумма оценок
+        totalRating += userRating; // Добавляем новую оценку
+        double averageRating = totalRating / (website.getReviews().size() + 1); // Пересчитываем средний рейтинг
+        website.setRating(averageRating);
+
+        cout << "Спасибо за ваш отзыв!" << endl;
+    }
+    else {
+        cout << "Ошибка: 'Контактная почта отсутствует. Невозможно оставить отзыв.' !" << endl;
+    }
+}
+
+void createMenu(Dealership& dealership, DealershipWebsite& website, Deal* deals, string carData[][3]) {
+    bool exit_program = false;
+    int choice;
+    do
+    {
+        cout << " -- Меню создания --" << endl;
+        cout << "1 - Создать автосалон" << endl;
+        cout << "2 - Создать website автосалонa" << endl;
+        cout << "3 - Оформление сделки" << endl;
+        cout << "0 - Выход..." << endl;
+        cout << endl;
+
+        cout << "Выберите действие: ";
+        while (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(100, '\n');
+            cout << "Ошибка: 'Некорректный ввод' !\n\n";
+            cout << "Выберите действие: ";
+        }
+        cin.ignore();
+
+        switch (choice) {
+        case 1:
+            system("cls");
+            try {
+                dealership = inputDealership();
+            }
+            catch (const exception& error) {
+                cout << error.what() << endl;
+            }
+            break;
+        case 2:
+            system("cls");
+            try {
+                website = inputDealershipWebsite(dealership);
+            }
+            catch (const exception& error) {
+                cout << error.what() << endl;
+            }
+            break;
+        case 3:
+            system("cls");
+            try {
+                deals = inputDeal(dealership, carData);
+            }
+            catch (const exception& error) {
+                cout << "Ошибка: '" << error.what() << "' !" << endl;
+            }
+            break;
+        case 0:
+            cout << "Осуществляется выход..." << endl;
+            exit_program = true;
+            break;
+        default:
+            cout << "Ошибка: 'Неверная команда' !" << endl;
+            break;
+        }
+        if (!exit_program) {
+            cout << "\nНажмите любую клавишу для продолжения...";
+            _getch(); // Ожидание нажатия клавиши
+            system("cls"); // Очистка экрана
+        }
+    } while (choice != 0);
+}
+
+void editMenu(Dealership& dealership, DealershipWebsite& website) {
+    bool exit_program = false;
+    int choice;
+    do
+    {
+        cout << " -- Меню редактирования --" << endl;
+        cout << "1 - Добавить сотрудника" << endl;
+        cout << "2 - Добавить авто" << endl;
+        cout << "3 - Удалить сотрудника" << endl;
+        cout << "4 - Удалить авто" << endl;
+        cout << "0 - Выход..." << endl;
+        cout << endl;
+
+        cout << "Выберите действие: ";
+        while (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(100, '\n');
+            cout << "Ошибка: 'Некорректный ввод' !\n\n";
+            cout << "Выберите действие: ";
+        }
+        cin.ignore();
+
+        switch (choice) {
+        case 1:
+            system("cls");
+            try {
+                addEmployeesToDealership(dealership,website);
+            }
+            catch (const exception& error) {
+                cout << "Ошибка: '" << error.what() << "' !" << endl;
+            }
+            break;
+        case 2:
+            system("cls");
+            try {
+                addCarsToDealership(dealership, website);
+            }
+            catch (const exception& error) {
+                cout << "Ошибка: '" << error.what() << "' !" << endl;
+            }
+            break;
+        case 3:
+            system("cls");
+            try {
+                removeEmployeeFromDealership(dealership, website);
+            }
+            catch (const exception& error) {
+                cout << "Ошибка: '" << error.what() << "' !" << endl;
+            }
+            break;
+        case 4:
+            system("cls");
+            try {
+                removeCarFromDealership(dealership, website);
+            }
+            catch (const exception& error) {
+                cout << "Ошибка: '" << error.what() << "' !" << endl;
+            }
+            break;
+        case 0:
+            cout << "Осуществляется выход..." << endl;
+            exit_program = true;
+            break;
+        default:
+            cout << "Ошибка: 'Неверная команда' !" << endl;
+            break;
+        }
+        if (!exit_program) {
+            cout << "\nНажмите любую клавишу для продолжения...";
+            _getch(); // Ожидание нажатия клавиши
+            system("cls"); // Очистка экрана
+        }
+    } while (choice != 0);
+}
+
+void infoMenu(Dealership& dealership, DealershipWebsite& website, Deal* deals, string carData[][3]) {
+    bool exit_program = false;
+    int choice;
+    do
+    {
+        cout << " -- Меню вывода информации --" << endl;
+        cout << "1 - Вывести информацию о сотрудниках" << endl;
+        cout << "2 - Вывести информацию об автомобилях" << endl;
+        cout << "3 - Вывести информацию о website автосалона" << endl;
+        cout << "4 - Вывести информацию о website автосалона (использование оператора <<)" << endl;
+        cout << "5 - Вывести полную информацию об автосалоне" << endl;
+        cout << "6 - Вывести историю сделок" << endl;
+        cout << "7 - Вывести доход автосалона" << endl;
+        cout << "0 - Выход..." << endl;
+        cout  << endl;
+
+        cout << "Выберите действие: ";
+        while (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(100, '\n');
+            cout << "Ошибка: 'Некорректный ввод' !\n\n";
+            cout << "Выберите действие: ";
+        }
+        cin.ignore();
+
+        switch (choice) {
+        case 1:
+            system("cls");
+            try {
+                dealership.outEmployeeDealership();
+            }
+            catch (const exception& error) {
+                cout << error.what() << endl;
+            }
+            break;
+        case 2:
+            system("cls");
+            try {
+                dealership.outCarDealership();
+            }
+            catch (const exception& error) {
+                cout << error.what() << endl;
+            }
+            break;
+        case 3:
+            system("cls");
+            website.outAllInfoDealership();
+            break;
+        case 4:
+            system("cls");
+            website.outAllInfoDealershipWithOutputOperator();
+            break;
+        case 5:
+            system("cls");
+            try {
+                dealership.outAllInfoDealership();
+            }
+            catch (const exception& error) {
+                cout << "Ошибка: '" << error.what() << "' !" << endl;
+            }
+            break;
+        case 6:
+            system("cls");
+            try {
+                outputDeals(deals);
+            }
+            catch (const exception& error) {
+                cout << error.what() << endl;
+            }
+            break;
+        case 7:
+            system("cls");
+            outputProfitDealership(carData);
+            break;
+        case 0:
+            cout << "Осуществляется выход..." << endl;
+            exit_program = true;
+            break;
+        default:
+            cout << "Ошибка: 'Неверная команда' !" << endl;
+            break;
+        }
+        if (!exit_program) {
+            cout << "\nНажмите любую клавишу для продолжения...";
+            _getch(); // Ожидание нажатия клавиши
+            system("cls"); // Очистка экрана
+        }
+    } while (choice != 0);
+}
+
 

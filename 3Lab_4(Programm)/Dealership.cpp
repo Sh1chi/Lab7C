@@ -1,7 +1,4 @@
 #include "Dealership.h"
-
-
-
 using namespace std;
 
 
@@ -41,6 +38,11 @@ void Dealership::setCars(Car* cars) {
     for (int i = 0; i < numCars; ++i) {
         this->cars[i] = cars[i];
     }
+}
+
+//Демонстрационная виртуальная функция
+void Dealership::displayInfo() {
+    cout << "Displaying Dealership Info" << endl;
 }
 
 void Dealership::outAllInfoDealership() {

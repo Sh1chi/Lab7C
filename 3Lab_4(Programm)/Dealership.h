@@ -13,16 +13,18 @@ extern int numEmployees, numCars, numDeals;
 
 // Класс автосалона
 class Dealership {
-    string dealership_name;                      // Название автосалона
-    string address;                   // Адрес автосалона
     Employee employees[MAX_EMPLOYEES]; // Список сотрудников
     Car cars[MAX_CARS];               // Список имеющихся автомобилей
+
+protected:
+    string dealership_name;           // Название автосалона
+    string address;                   // Адрес автосалона
 
 public:
     Dealership() : dealership_name(""), address("") {}
 
     // Контруктор с параметрами
-    Dealership(string name, string address, Car* carArray, int numCars, Employee* employeeArray, int numEmployees)
+    Dealership(string name, string address, Car* carArray, Employee* employeeArray)
         : dealership_name(name), address(address) {
         // Инициализация массивов в конструкторе
         for (int i = 0; i < numCars; ++i) {
@@ -46,7 +48,9 @@ public:
     void setEmployees(Employee* employees);
     void setCars(Car* cars);
     
-    void outAllInfoDealership();
+    virtual void displayInfo(); //Демонстрационная виртуальная функция
+
+    virtual void outAllInfoDealership();
     void outEmployeeDealership();
     void outCarDealership();
     void outEmployeesChoice();

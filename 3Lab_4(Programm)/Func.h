@@ -2,6 +2,8 @@
 #include <string>
 #include <iostream>
 #include <conio.h>
+#include <vector>
+#include <algorithm>
 
 #include "Employee.h"
 #include "Car.h"
@@ -30,6 +32,10 @@ void outputProfitDealership(string carData[][3]);
 void sortDealsByNumber(vector<Deal>& deals);
 
 void outputDeals(vector<Deal>& deals);
+
+Deal* findDealByNumber(vector<Deal>& deals, int dealNumber);
+
+void findAndOutputDealByNumber(vector<Deal>& deals);
 
 void addCarsToDealership(Dealership& dealership, DealershipWebsite& website);
 

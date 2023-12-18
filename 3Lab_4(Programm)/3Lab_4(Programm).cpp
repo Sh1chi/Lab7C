@@ -47,8 +47,9 @@ int main() {
         cout << "2 - Редактирование" << endl;
         cout << "3 - Вывод информации" << endl;
         cout << "4 - Оставить отзыв" << endl;
-        cout << "5 - Демонстрация использования виртуальных функций" << endl;
-        cout << "6 - Демонстрация использования шаблонного класса" << endl;
+        cout << "5 - Поиск сделки" << endl;
+        cout << "6 - Демонстрация использования виртуальных функций" << endl;
+        cout << "7 - Демонстрация использования шаблонного класса" << endl;
         cout << "0 - Выход..." << endl;
         cout << endl;
 
@@ -77,13 +78,21 @@ int main() {
         case 4:
             system("cls");
             leaveReviewAndRating(website);
-            Sleep(1500);
             break;
         case 5:
             system("cls");
-            demonstrateVirtualFunction(dealership, website);
+            try {
+                findAndOutputDealByNumber(deals);
+            }
+            catch (const exception& error) {
+                cout << error.what() << endl;
+            }
             break;
         case 6:
+            system("cls");
+            demonstrateVirtualFunction(dealership, website);
+            break;
+        case 7:
             system("cls");
             textReviews.addReview("Great service!");
             textReviews.addReview("Good prices!");

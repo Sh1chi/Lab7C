@@ -255,6 +255,58 @@ void outputDeals(vector<Deal>& deals) {
     }
 }
 
+// Функция поиска сделки по номеру сделки
+Deal* findDealByNumber(vector<Deal>& deals, int dealNumber) {
+    auto it = find_if(deals.begin(), deals.end(), [dealNumber](Deal& deal) {
+        return deal.getDeal_number() == dealNumber;
+        });
+
+    if (it != deals.end()) {
+        return const_cast<Deal*>(&(*it)); // Возвращаем указатель на найденную сделку
+    }
+
+    return nullptr; // Если сделка с таким номером не найдена
+}
+
+void findAndOutputDealByNumber(vector<Deal>& deals) {
+    if (deals.empty()) {
+        throw exception("История сделок пуста...");
+    }
+    int dealNumber;
+    bool validInput = false;
+    cout << "   __--Поиск сделки по номеру--__ " << endl;
+    cout << endl;
+
+    do {
+        try {
+            cout << "Введите номер сделки: #";
+            cin >> dealNumber;
+            if (cin.fail() || dealNumber <= 0) {
+                throw invalid_argument("'Некорректный номер сделки' ! Введите положительное целое число.");
+            }
+            validInput = true; // Если ввод корректен, меняем флаг
+        }
+        catch (exception& e) {
+            cin.clear(); // Сбрасываем флаг ошибки ввода
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очищаем буфер ввода
+            cout << "Ошибка: " << e.what() << endl;
+        }
+    } while (!validInput); // Повторяем запрос, пока ввод не будет корректным
+
+    cin.ignore(); // Очистка буфера ввода
+
+    Deal* foundDeal = findDealByNumber(deals, dealNumber);
+
+    if (foundDeal) {
+        cout << endl;
+        // Если сделка найдена, выводим информацию о ней
+        foundDeal->outputDeal();
+        cout << endl;
+    } else {
+        cout << "Сделка с номером #" << dealNumber << " не найдена." << endl;
+    }
+}
+
 void addCarsToDealership(Dealership& dealership, DealershipWebsite& website)
 {
     cout << "   __--Добавление новых автомобилей в автосалон--__" << endl;

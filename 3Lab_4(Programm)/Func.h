@@ -27,6 +27,8 @@ vector<Deal> inputDeal(Dealership dealership, string carData[][3]);
 
 void outputProfitDealership(string carData[][3]);
 
+void sortDealsByNumber(vector<Deal>& deals);
+
 void outputDeals(vector<Deal>& deals);
 
 void addCarsToDealership(Dealership& dealership, DealershipWebsite& website);

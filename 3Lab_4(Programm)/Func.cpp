@@ -233,12 +233,23 @@ void outputProfitDealership(string carData[][3]) {
     cout << endl;
 }
 
+// Функция для сортировки сделок по номеру сделки
+void sortDealsByNumber(vector<Deal>& deals) {
+    sort(deals.begin(), deals.end(), [](Deal& a, Deal& b) {
+        return a.getDeal_number() < b.getDeal_number();
+        });
+}
+
+// Функция для вывода отсортированных сделок
 void outputDeals(vector<Deal>& deals) {
     if (deals.empty()) {
         throw exception("История сделок пуста...");
     }
 
-    for (Deal& deal : deals) {
+    vector<Deal> sortedDeals = deals; // Создаем копию вектора сделок
+    sortDealsByNumber(sortedDeals); // Сортируем сделки по номеру сделки
+
+    for (Deal& deal : sortedDeals) {
         deal.outputDeal();
         cout << endl;
     }

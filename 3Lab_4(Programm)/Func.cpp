@@ -143,7 +143,7 @@ DealershipWebsite inputDealershipWebsite(Dealership& dealership) {
     return website;
 }
 
-Deal* inputDeal(Dealership dealership, string carData[][3]){
+vector<Deal> inputDeal(Dealership dealership, string carData[][3]) {
     if (dealership.getDealership_name().empty() || dealership.getAddres().empty()) {
         throw exception("Отсутствует автосалон");
     }
@@ -161,7 +161,8 @@ Deal* inputDeal(Dealership dealership, string carData[][3]){
     if (numDeals <= 0){
         throw exception("Ошибка: 'Недопустимое количество' !");
     }
-    Deal* dealArray = new Deal[numDeals];
+
+    vector<Deal> deals; // Используем вектор для хранения сделок
 
     int deal_number;
     cout << endl;
@@ -208,12 +209,13 @@ Deal* inputDeal(Dealership dealership, string carData[][3]){
         carData[i][1] = car_sold[car_choice].getBrand_model();
         carData[i][2] = to_string(transaction_amount * 0.05);
 
-        // Создание объекта сделки и сохранение его в массиве
-        dealArray[i] = Deal(deal_number, deal_date, seller[seller_choice], buyer, car_sold[car_choice], transaction_amount);
+        // Создание объекта сделки и добавление его в вектор
+        Deal newDeal(deal_number, deal_date, seller[seller_choice], buyer, car_sold[car_choice], transaction_amount);
+        deals.push_back(newDeal);
         cout << endl;
     }
 
-    return dealArray;
+    return deals;
 }
 
 void outputProfitDealership(string carData[][3]) {
@@ -231,16 +233,16 @@ void outputProfitDealership(string carData[][3]) {
     cout << endl;
 }
 
-void outputDeals(Deal* deals) {
-    if (numDeals < 1) {
+void outputDeals(vector<Deal>& deals) {
+    if (deals.empty()) {
         throw exception("История сделок пуста...");
     }
-    for (int i = 0; i < numDeals; ++i) {
-        deals[i].outputDeal();
+
+    for (Deal& deal : deals) {
+        deal.outputDeal();
         cout << endl;
     }
 }
-
 
 void addCarsToDealership(Dealership& dealership, DealershipWebsite& website)
 {
@@ -484,7 +486,7 @@ void leaveReviewAndRating(DealershipWebsite& website) {
     }
 }
 
-void createMenu(Dealership& dealership, DealershipWebsite& website, Deal* deals, string carData[][3]) {
+void createMenu(Dealership& dealership, DealershipWebsite& website, vector<Deal>& deals, string carData[][3]) {
     bool exit_program = false;
     int choice;
     do
@@ -527,7 +529,8 @@ void createMenu(Dealership& dealership, DealershipWebsite& website, Deal* deals,
         case 3:
             system("cls");
             try {
-                deals = inputDeal(dealership, carData);
+                vector<Deal> newDeals = inputDeal(dealership, carData);
+                deals.insert(deals.end(), newDeals.begin(), newDeals.end());
             }
             catch (const exception& error) {
                 cout << "Ошибка: '" << error.what() << "' !" << endl;
@@ -624,7 +627,7 @@ void editMenu(Dealership& dealership, DealershipWebsite& website) {
     } while (choice != 0);
 }
 
-void infoMenu(Dealership& dealership, DealershipWebsite& website, Deal* deals, string carData[][3]) {
+void infoMenu(Dealership& dealership, DealershipWebsite& website, vector<Deal>& deals, string carData[][3]) {
     bool exit_program = false;
     int choice;
     do

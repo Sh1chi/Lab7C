@@ -11,6 +11,7 @@
 #include <string>
 #include <conio.h>
 #include <windows.h>
+#include <vector>
 
 using namespace std;
 
@@ -29,7 +30,7 @@ int main() {
     int choice;
     Dealership dealership;
     DealershipWebsite website;
-    Deal* deals = nullptr;
+    vector<Deal> deals;
     string carData[MAX_DEALS][3]; // Двумерный массив для хранения марки и цены автомобилей
     ReviewManagement<string> textReviews;
     ReviewManagement<int> ratingReviews;

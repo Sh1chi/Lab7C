@@ -23,11 +23,11 @@ Dealership inputDealership();
 
 DealershipWebsite inputDealershipWebsite(Dealership& dealership);
 
-Deal* inputDeal(Dealership dealership, string carData[][3]);
+vector<Deal> inputDeal(Dealership dealership, string carData[][3]);
 
 void outputProfitDealership(string carData[][3]);
 
-void outputDeals(Deal* deals);
+void outputDeals(vector<Deal>& deals);
 
 void addCarsToDealership(Dealership& dealership, DealershipWebsite& website);
 
@@ -41,9 +41,9 @@ void demonstrateVirtualFunction(Dealership& dealership, DealershipWebsite& websi
 
 void leaveReviewAndRating(DealershipWebsite& website);
 
-void createMenu(Dealership& dealership, DealershipWebsite& website, Deal* deals, string carData[][3]);
+void createMenu(Dealership& dealership, DealershipWebsite& website, vector<Deal>& deals, string carData[][3]);
 
 void editMenu(Dealership& dealership, DealershipWebsite& website);
 
-void infoMenu(Dealership& dealership, DealershipWebsite& website, Deal* deals, string carData[][3]);
+void infoMenu(Dealership& dealership, DealershipWebsite& website, vector<Deal>& deals, string carData[][3]);
 
